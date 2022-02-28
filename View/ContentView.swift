@@ -8,6 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    enum TeamLevels: String, Identifiable, CaseIterable {
+        case Champions, UEFA
+        var id: Self {self}
+    }
+    
     @StateObject var teamVM = TeamVM()
     @State private var team1Player1 = ""
     @State private var team1Player2 = ""
@@ -22,6 +28,8 @@ struct ContentView: View {
     @State private var disabled = false
     @State private var navigationEnabled = false
     
+    @State private var teamLevel: TeamLevels = .Champions
+    
     var body: some View {
         NavigationView {
             VStack(alignment: .center) {
@@ -30,7 +38,34 @@ struct ContentView: View {
                 }
                 .disabled(disabled)
                 .padding()
+                .onChange(of: numberOfPlayers) { _ in
+                    if numberOfPlayers == 2 {
+                        team1Player2 = ""
+                        team2Player2 = ""
+                    }
+                }
                 
+                Section("Takımların Seviyesi") {
+                    Picker("Takımların Seviyesi", selection: $teamLevel) {
+                        ForEach(TeamLevels.allCases) { level in
+                            Text(level.rawValue)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .onChange(of: teamLevel) { newValue in
+                        if teamLevel == .Champions {
+                            team1 = Team(name: "Manchester City", league: "Premier League", level: "Champions")
+                            team2 = Team(name: "Manchester United", league: "Premier League", level: "Champions")
+                        }
+                        
+                        if teamLevel == .UEFA {
+                            team1 = Team(name: "WestHam United", league: "Premier League", level: "UEFA")
+                            team2 = Team(name: "Southampton", league: "Premier League", level: "UEFA")
+                        }
+                    }
+                    .disabled(disabled)
+                }
+
                 TeamsView(team1: team1, team2: team2)
                     .animation(.default, value: 1)
                 
@@ -95,7 +130,7 @@ struct ContentView: View {
             .navigationTitle("Fifa")
             .toolbar {
                 NavigationLink(destination: MatchesView()) {
-                    Text("Button")
+                    Text("Kayıtlı Maçlar")
                 }
             }
         }
@@ -104,8 +139,13 @@ struct ContentView: View {
     
     func matchTeams() {
         disabled = true
-        let allTeams = teamVM.teams.shuffled()
-        let teamsCount = allTeams.count
+        //let allTeams = teamVM.teams.shuffled()
+        
+        let filteredTeams = teamVM.teams.shuffled().filter { team in
+            team.level == teamLevel.rawValue
+        }
+        
+        let teamsCount = filteredTeams.count
         var team1Index = 0
         var team2Index = 0
         
@@ -120,16 +160,16 @@ struct ContentView: View {
             }
         }
         
-        for val in 0..<teamsCount/2 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + (0.25*Double(val))) {
+        for val in 0..<teamsCount {
+            DispatchQueue.main.asyncAfter(deadline: .now() + (0.2*Double(val))) {
                 withAnimation {
-                    team2 = allTeams[val]
-                    team1 = allTeams[teamsCount/2 - val]
+                    team2 = filteredTeams[val]
+                    team1 = filteredTeams[(teamsCount-1) - val]
                     
-                    if val == teamsCount/2 - 1 {
+                    if val == teamsCount - 1 {
                         
-                        team1 = allTeams[team1Index]
-                        team2 = allTeams[team2Index]
+                        team1 = filteredTeams[team1Index]
+                        team2 = filteredTeams[team2Index]
                         disabled = false
                     }
                 }

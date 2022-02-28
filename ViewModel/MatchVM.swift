@@ -12,7 +12,6 @@ class MatchVM: ObservableObject {
     
     init(){
         matches = loadMatches()
-        print(matches)
     }
     
     func loadMatches() -> [Match] {

@@ -8,10 +8,20 @@
 import Foundation
 
 class TeamVM: ObservableObject {
-    var teams = [Team]()
+    var teams : [Team] = {
+        if let data = UserDefaults.standard.value(forKey: "teams") as? Data {
+            if let teamsData = try? PropertyListDecoder().decode([Team].self, from: data){
+                return teamsData
+            }
+        }
+        
+        return [Team]()
+    }()
     
     init(){
-        writeData()
+        if teams.isEmpty {
+            writeData()
+        }
         teams = loadTeams()
     }
     

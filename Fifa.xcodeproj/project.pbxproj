@@ -49,6 +49,9 @@
 		8618356C27CB84BF006CA2F0 = {
 			isa = PBXGroup;
 			children = (
+				86BF950C27CD57DC005550AA /* Model */,
+				86BF950B27CD57CA005550AA /* ViewModel */,
+				86BF950A27CD57BC005550AA /* View */,
 				8618357727CB84BF006CA2F0 /* Fifa */,
 				8618357627CB84BF006CA2F0 /* Products */,
 			);
@@ -66,16 +69,8 @@
 			isa = PBXGroup;
 			children = (
 				8618357827CB84BF006CA2F0 /* FifaApp.swift */,
-				8618357A27CB84BF006CA2F0 /* ContentView.swift */,
-				8618358A27CBB0AB006CA2F0 /* TeamsView.swift */,
 				8618357C27CB84C1006CA2F0 /* Assets.xcassets */,
 				8618357E27CB84C1006CA2F0 /* Preview Content */,
-				8618358627CB861E006CA2F0 /* Team.swift */,
-				8618358827CB8689006CA2F0 /* TeamVM.swift */,
-				8618358C27CBD731006CA2F0 /* MatchResultView.swift */,
-				8634A3DF27CBEAC1007F9299 /* MatchesView.swift */,
-				8634A3DB27CBE74F007F9299 /* Match.swift */,
-				8634A3DD27CBE79B007F9299 /* MatchVM.swift */,
 			);
 			path = Fifa;
 			sourceTree = "<group>";
@@ -86,6 +81,35 @@
 				8618357F27CB84C1006CA2F0 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		86BF950A27CD57BC005550AA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8618357A27CB84BF006CA2F0 /* ContentView.swift */,
+				8618358C27CBD731006CA2F0 /* MatchResultView.swift */,
+				8634A3DF27CBEAC1007F9299 /* MatchesView.swift */,
+				8618358A27CBB0AB006CA2F0 /* TeamsView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		86BF950B27CD57CA005550AA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				8634A3DD27CBE79B007F9299 /* MatchVM.swift */,
+				8618358827CB8689006CA2F0 /* TeamVM.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		86BF950C27CD57DC005550AA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8634A3DB27CBE74F007F9299 /* Match.swift */,
+				8618358627CB861E006CA2F0 /* Team.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
